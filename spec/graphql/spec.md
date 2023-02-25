@@ -421,7 +421,13 @@ The `Subscription` type in a GraphQL schema is used to continuously fetch data f
 
 ###### Example: Adding a Field to the `Subscription` Type
 
-
+```ballerina
+service on new graphql:Listener(9090) {
+    resource function subscribe greetings() returns stream<stream> {
+        return ["Hello", "Hi", "Hello World!"].toStream();
+    }
+}
+```
 
 ### 3.2 Wrapping Types
 
