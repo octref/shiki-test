@@ -429,28 +429,5 @@ service on new graphql:Listener(9090) {
 }
 ```
 
-### 3.2 Wrapping Types
-
-Wrapping types are used to wrap the named types in GraphQL. A wrapping type has an underlying named type. There are two wrapping types defined in the GraphQL schema.
-
-#### 3.2.1 `NON_NULL` Type
-
-`NON_NULL` type is a wrapper type to denote that the resulting value will never be `null`. Ballerina types do not implicitly allow `nil`. Therefore, each type is inherently a `NON_NULL` type until specified explicitly otherwise. If a type is meant to be a nullable value, it should be unionized with `nil`.
-
->**Note:** `nil` (represented by `()`) is the Ballerina's version of `null`.
-
-In the following example, the type of the `name` field is `String!`. This means the `String` type is wrapped by the `NON_NULL` type.
-
-###### Example: NON_NULL Type
-```ballerina
-service on new graphql:Listener(9090) {
-    resource function get name returns string {
-        return "Walter White";
-    }
-}
-```
-
-To make it a nullable type, it should be unionized with `?`. The following example shows the field `name` of the type `String`. This means the `name` field can have a `null` value.
-
 
 
