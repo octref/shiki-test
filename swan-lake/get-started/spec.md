@@ -413,21 +413,6 @@ service on new graphql:Listener(9090) {
 }
 ```
 
-As per the [GraphQL specification](https://spec.graphql.org/June2018/#sec-Mutation), the `Mutation` type is expected to perform side effects on the underlying data system. Therefore, the mutation operations should be executed serially. This is ensured in the Ballerina GraphQL package. Each remote method invocation in a request is done serially, unlike the resource method invocations, which are executed in parallel.
-
-#### 3.1.3 The `Subscription` Type
-
-The `Subscription` type in a GraphQL schema is used to continuously fetch data from a GraphQL service. In Ballerina, each `resource` method with the `subscribe` accessor inside a GraphQL service is mapped to a field in the root `Subscription` type. If the `resource` method has the `subscribe` accessor, it must return a `stream`. Otherwise, the compilation error will occur.
-
-###### Example: Adding a Field to the `Subscription` Type
-
-```ballerina
-service on new graphql:Listener(9090) {
-    resource function subscribe greetings() returns stream<stream> {
-        return ["Hello", "Hi", "Hello World!"].toStream();
-    }
-}
-```
 
 
 
