@@ -397,5 +397,60 @@ service on new graphql:Listener(9090) {
 }
 ```
 
+>**Note:** Since the `Query` type must be defined in a GraphQL schema, a Ballerina GraphQL service must have at least one resource method with the `get` accessor. Otherwise, the service will cause a compilation error.
+
+#### 3.1.2 The `Mutation` Type
+
+The `Mutation` type in a GraphQL schema is used to mutate the data. In Ballerina, each `remote` method inside the GraphQL service is mapped to a field in the root `Mutation` type. If no `remote` method is defined in the service, the generated schema will not have a `Mutation` type.
+
+###### Example: Adding a Field to the `Mutation` Type
+
+```ballerina
+service on new graphql:Listener(9090) {
+    remote function setName(string name) returns string {
+        //...
+    }
+}
+```
+
+As per the [GraphQL specification](https://spec.graphql.org/June2018/#sec-Mutation), the `Mutation` type is expected to perform side effects on the underlying data system. Therefore, the mutation operations should be executed serially. This is ensured in the Ballerina GraphQL package. Each remote method invocation in a request is done serially, unlike the resource method invocations, which are executed in parallel.
+
+#### 3.1.3 The `Subscription` Type
+
+The `Subscription` type in a GraphQL schema is used to continuously fetch data from a GraphQL service. In Ballerina, each `resource` method with the `subscribe` accessor inside a GraphQL service is mapped to a field in the root `Subscription` type. If the `resource` method has the `subscribe` accessor, it must return a `stream`. Otherwise, the compilation error will occur.
+
+###### Example: Adding a Field to the `Subscription` Type
+
+```ballerina
+service on new graphql:Listener(9090) {
+    resource function subscribe greetings() returns stream<stream> {
+        return ["Hello", "Hi", "Hello World!"].toStream();
+    }
+}
+```
+
+### 3.2 Wrapping Types
+
+Wrapping types are used to wrap the named types in GraphQL. A wrapping type has an underlying named type. There are two wrapping types defined in the GraphQL schema.
+
+#### 3.2.1 `NON_NULL` Type
+
+`NON_NULL` type is a wrapper type to denote that the resulting value will never be `null`. Ballerina types do not implicitly allow `nil`. Therefore, each type is inherently a `NON_NULL` type until specified explicitly otherwise. If a type is meant to be a nullable value, it should be unionized with `nil`.
+
+>**Note:** `nil` (represented by `()`) is the Ballerina's version of `null`.
+
+In the following example, the type of the `name` field is `String!`. This means the `String` type is wrapped by the `NON_NULL` type.
+
+###### Example: NON_NULL Type
+```ballerina
+service on new graphql:Listener(9090) {
+    resource function get name returns string {
+        return "Walter White";
+    }
+}
+```
+
+To make it a nullable type, it should be unionized with `?`. The following example shows the field `name` of the type `String`. This means the `name` field can have a `null` value.
+
 
 
