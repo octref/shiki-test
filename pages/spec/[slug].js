@@ -99,7 +99,7 @@ export async function getStaticProps({ params: { slug } }) {
 }
 
 export default function PostPage({ frontmatter, content, codeSnippets }) {
-  const codes = codeSnippets ? new Map(JSON.parse(codeSnippets)) : new Map();
+  const codes = codeSnippets && codeSnippets.length > 0 ? new Map(JSON.parse(codeSnippets)) : new Map();
 
   // Add id attributes to headings
   const extractText = (value) => {
