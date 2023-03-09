@@ -88,7 +88,7 @@ export async function getStaticProps({ params: { slug } }) {
   const fileName = fs.readFileSync(`spec/${slug}/spec.md`, "utf-8");
   const { data: frontmatter, content } = matter(fileName);
   let codeSnippets = await highlight(content);
-console.log(codeSnippets);
+// console.log(codeSnippets);
   return {
     props: {
       frontmatter,
@@ -100,7 +100,7 @@ console.log(codeSnippets);
 
 export default function PostPage({ frontmatter, content, codeSnippets }) {
   const codes = codeSnippets ? new Map(JSON.parse(codeSnippets)) : new Map();
-console.log(codes);
+// console.log(codes);
   // Add id attributes to headings
   const extractText = (value) => {
     if (typeof value === 'string') {
