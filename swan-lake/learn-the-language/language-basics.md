@@ -930,6 +930,16 @@ In case you want to terminate the ``future``, you can do *``f.cancel( )``*.
 
 Ballerina supports a structured way to document code. Documentation lines start with ``#`` and contain structured documentation in Markdown format.
 
+```ballerina
+# Adds two integers.
+# + x - an integer
+# + y - another integer
+# + return - the sum of `x` and `y`
+public function add(int x, int y)
+                     returns int {
+    return x + y;
+}
+```
 
 <pre><div><pre class="shiki" style="background-color: #ffffff"><code><span class="line"><span style="color: #6E7781"># Adds two integers.</span></span>
 <span class="line"><span style="color: #6E7781"># </span><span style="color: #CF222E">+ </span><span style="color: #24292F">x</span><span style="color: #CF222E"> - </span><span style="color: #6E7781">an integer</span></span>
