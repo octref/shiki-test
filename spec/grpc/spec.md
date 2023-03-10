@@ -962,12 +962,28 @@ listener grpc:Listener securedEP = new(9090,
 ### 6.1. gRPC deadline
 The following API sets a deadline for each request.
 
-ggg
+```ballerina
+public type RetryConfiguration record {|
+   int retryCount;
+   decimal interval;
+   decimal maxInterval;
+   decimal backoffFactor;
+   ErrorType[] errorTypes = defaultErrorTypes;
+|};
+```
 
 If a particular RPC exceeds the specified deadline, the response will be a `grpc:DeadlineExceededError`.
 
 ### 6.2. gRPC compression
-ss
+```ballerina
+public type RetryConfiguration record {|
+   int retryCount;
+   decimal interval;
+   decimal maxInterval;
+   decimal backoffFactor;
+   ErrorType[] errorTypes = defaultErrorTypes;
+|};
+```
 
 ### 6.3. gRPC access and trace Logs
 Access and trace logs can be enabled by adding the following configurations to the `Config.toml` file in a Ballerina project.
