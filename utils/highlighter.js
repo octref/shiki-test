@@ -47,8 +47,8 @@ const highlight = async (content) => {
           codes.set(key.hashCode(), highlighter.codeToHtml(code.trim(), { lang: supportedLangs.includes(lang) ? lang : '' }));
         } catch (err) {
           console.log(`error in highlighter.js while highlighting \n${code.trim()}\n`)
-          console.log(`whole content\n${content}\n`)
-          console.log(supportedLangs, lang)
+          console.err(err)
+          throw err
         }
     }
     return JSON.stringify([...codes]);
