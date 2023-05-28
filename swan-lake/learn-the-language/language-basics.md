@@ -12,25 +12,37 @@ redirect_from:
 - /learn/getting-started/language-basics
 ---
 
-## Familiar subset of Ballerina
-
-Ballerina is a modern programming language focused on building applications for the cloud era. It has a familiar syntax resembling the C-family of languages such as C/C++, C#, Java, and JavaScript. It brings in many powerful concepts from existing programming languages and some unconventional abstraction mechanisms to make application development for the cloud more intuitive and less strenuous.
-
-This guide presents the subset of the Ballerina language that is common to most modern programming languages. It covers the baseline features such as data types, control flow, and error handling, which should be very familiar to most programmers. These features are the foundation for some of the more [distinctive features of Ballerina](/learn/distinctive-language-features/network-interaction/). 
-
-## Programs and modules
-
-Ballerina programs consist of modules and each module consists of one or more *`.bal`* files.
-  
-The most important thing that a module does is define named functions.
-
-Here's what a simple Ballerina module looks like:
-
 ```ballerina
-import ballerina/io; 
+import ballerina/io;
 
-public function main() {
-    io:println("Hello World!"); 
+public function main() returns error? {
+    string name = "Katie Melua";
+
+    // XML literal.
+    xml album = xml
+    `<Album>
+        <name>Piece By Piece</name>
+        <artist>${name}</artist>
+        <song>Spider's Web</song>
+        <song>Nine Million Bicycles</song>
+    </Album>`;
+    io:println("XML Value: ", album);
+
+    // Extract the list of song names from the XML value using a query expression.
+    string[] songs = from var song in album/<song>
+        select song.data();
+    io:println("Extracted song names: ", songs);
+
+    // JSON literal.
+    json jAlbum = {
+        "name": (album/<name>).data(),
+        "artist": name,
+        songs
+    };
+    io:println("JSON value: ", jAlbum);
+
+    json artistName = check jAlbum.artist;
+    io:println("Album artist: ", artistName);
 }
 ```
 
