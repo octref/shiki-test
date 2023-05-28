@@ -51,7 +51,6 @@ export async function getStaticProps() {
     const filename = fs.readFileSync(item, "utf-8");
     const sampleName = item.replace('components/home-page/bal-action/action-bbe/', '').replace('.md', '');
     const { data: frontmatter, content } = matter(filename);
-    console.log(`highlighting\n${content}\n`)
     samples[sampleName] = highlighter.codeToHtml(content.replaceAll('```', ''), { lang: 'ballerina' });
   });
 

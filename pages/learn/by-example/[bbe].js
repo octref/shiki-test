@@ -70,7 +70,13 @@ export async function getStaticProps({ params: { bbe } }) {
   const codeSnippetData = (BBEs[`${bbeComponentName}CodeSnippetData`]);
   const codes = [];
   for (let snippet of codeSnippetData) {
-    codes.push(highlighter.codeToHtml(snippet, { lang: 'ballerina' }));
+    try {
+      codes.push(highlighter.codeToHtml(snippet, { lang: 'ballerina' }));
+    } catch (err) {
+      console.log(`error during highlighting\n${snippet}\n`)
+      console.log(bbe)
+      console.error(err)
+    }
   }
 
   return {
