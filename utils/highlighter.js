@@ -43,7 +43,13 @@ const highlight = async (content) => {
         code = code.split(/\r?\n/).map(row => row.substring(indent - 1)).join('\n');
         const lang = (match[1]).toLowerCase();
 
-        codes.set(key.hashCode(), highlighter.codeToHtml(code.trim(), { lang: supportedLangs.includes(lang) ? lang : '' }));
+        try {
+          codes.set(key.hashCode(), highlighter.codeToHtml(code.trim(), { lang: supportedLangs.includes(lang) ? lang : '' }));
+        } catch (err) {
+          console.log(`error in highlighter.js while highlighting \n${code.trim()}\n`)
+          console.log(`whole content\n${content}\n`)
+          console.log(supportedLangs, lang)
+        }
     }
     return JSON.stringify([...codes]);
 }
