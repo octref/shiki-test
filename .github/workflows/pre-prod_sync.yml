@@ -12,12 +12,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.os }}
     env:
       NEXT_PUBLIC_BASE_PATH: ''
     strategy:
       matrix:
         node-version: [18.x]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - name: Checkout code
